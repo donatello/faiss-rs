@@ -7,6 +7,7 @@ fn main() {
 
     let faiss_src = env::var("FAISS_SRC_DIR").unwrap();
     let library_path = Path::new(&faiss_src);
+    assert!(library_path.is_dir());
 
     cxx_build::bridge("src/multibuf.rs")
         .file("src/cpp/multibuf.cpp")
