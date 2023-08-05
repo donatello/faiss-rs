@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   CARGO_TERM_COLOR: always
@@ -21,15 +21,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Cache Faiss shared objects
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
-        path: ~/.faiss_c
+        path: |
+          ~/.faiss_c
+          ~/.faiss_src
         key: ${{ runner.os }}-build-${{ env.cache-name }}1
     - name: Download and build Faiss
       run: ./faiss-sys/ci/install_faiss_c.sh
     - name: Install Faiss
       run: sudo cp $HOME/.faiss_c/lib*.so /usr/lib/
     - name: Build
-      run: cargo build --verbose
+      env:
+        FAISS_SRC_DIR: "${{ vars.GITHUB_WORKSPACE }}/.faiss_src"
+      run: |
+        env | grep FAISS
+        cargo build --verbose
     - name: Run tests
+      env:
+        FAISS_SRC_DIR: "${{ vars.GITHUB_WORKSPACE }}/.faiss_src"
       run: cargo test --verbose
