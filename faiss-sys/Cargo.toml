@@ -8,6 +8,7 @@ repository = "https://github.com/Enet4/faiss-rs"
 links = "faiss_c"
 categories = ["external-ffi-bindings", "algorithms"]
 keywords = ["cbir", "clustering", "index", "similarity", "bindings"]
+edition = "2021"
 
 [features]
 gpu = []
@@ -17,3 +18,9 @@ status = "passively-maintained"
 
 [package.metadata.docs.rs]
 features = ["gpu"]
+
+[dependencies]
+cxx = "1.0"
+
+[build-dependencies]
+cxx-build = "1.0"

@@ -12,6 +12,10 @@ mod bindings;
 #[cfg(not(feature = "gpu"))]
 pub use bindings::*;
 
+mod multibuf;
+pub use multibuf::ffi::faiss_read_index_multibuf;
+pub use multibuf::{close, next_chunk, MultiBuf};
+
 #[cfg(test)]
 mod tests {
     use super::*;

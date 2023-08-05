@@ -10,6 +10,20 @@ use std::ptr;
 
 pub use super::io_flags::IoFlags;
 
+pub use faiss_sys::MultiBuf;
+
+pub fn read_index_multibuf(mb: &mut MultiBuf) -> Result<IndexImpl> {
+    unsafe {
+        let mut inner = ptr::null_mut();
+        faiss_try(faiss_read_index_multibuf(
+            mb,
+            IoFlags::MEM_RESIDENT.into(),
+            &mut inner,
+        ))?;
+        Ok(IndexImpl::from_inner_ptr(inner))
+    }
+}
+
 /// Write an index to a file.
 ///
 /// # Error
