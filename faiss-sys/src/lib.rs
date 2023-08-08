@@ -13,8 +13,8 @@ mod bindings;
 pub use bindings::*;
 
 mod multibuf;
-pub use multibuf::ffi::faiss_read_index_multibuf;
-pub use multibuf::{close, next_chunk, MultiBuf};
+pub use multibuf::ffi::{faiss_read_index_br, faiss_write_index_bs};
+pub use multibuf::{new_bufreceiver, new_bufsender, BufReceiver, BufSender};
 
 #[cfg(test)]
 mod tests {
